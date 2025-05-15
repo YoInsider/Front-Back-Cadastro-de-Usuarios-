@@ -18,10 +18,18 @@ function Home() {
 
   async function createUser() {
     await api.post('/users', {
-      nome: inputNome,
-      idade: inputIdade,
-      email: inputEmail
+      nome: inputNome.current.value,
+      idade: inputIdade.current.value,
+      email: inputEmail.current.value
     })
+
+    getUsers();
+  }
+
+  async function removeUser(_id) {
+    await api.delete(`/users/${_id}`);
+
+    getUsers();
   }
 
   useEffect(() => {
@@ -32,20 +40,20 @@ function Home() {
     <div className='container'>
       <form action="">
         <h1>Cadastro de Usuários</h1>
-        <input type="text" name='name' placeholder='Name' ref={inputNome}/>
-        <input type="number" name='age' placeholder='Age' ref={inputIdade}/>
-        <input type="email" name='email' placeholder='Email' ref={inputEmail}/>
+        <input type="text" name='name' placeholder='Name' ref={inputNome} required/>
+        <input type="number" name='age' placeholder='Age' ref={inputIdade} required/>
+        <input type="email" name='email' placeholder='Email' ref={inputEmail} required/>
         <button type='button' onClick={createUser}>Cadastrar</button>
       </form>
 
       {users.map((user) => (
-        <div className='card'>
+        <div className='card' key={user._id}>
           <div>
             <p>Nome: <span>{user.nome}</span></p>
             <p>Idade: <span>{user.idade}</span></p>
             <p>Email: <span>{user.email}</span></p>
           </div>
-          <button>
+          <button onClick={() => removeUser(user._id)}>
             <img src={Trash} alt="" width={30} height={30} />
           </button>
         </div>

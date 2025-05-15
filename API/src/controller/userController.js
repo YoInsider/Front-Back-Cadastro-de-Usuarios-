@@ -21,7 +21,7 @@ async function createUser(req, res) {
 
 async function removeUser(req, res) {
     try {
-        const remove = await User.findByIdAndDelete(req.params.id);
+        const remove = await User.findByIdAndDelete(req.params._id);
         res.json({ message: "Usuario removido com sucesso!" });
     } catch (error) {
         console.log(`Erro ao remover usuario // ${error}`);
